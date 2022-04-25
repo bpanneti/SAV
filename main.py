@@ -29,6 +29,8 @@ import glob
 from client import client
 import json
 
+from gis import GIS
+
 from topic import settingsDlg as connexionSettings, topic 
  
 TEXT_FONT   = QFont("Courier", 10)
@@ -149,11 +151,20 @@ class MyWindow(QMainWindow):
         self.textbox.setFont(TEXT_FONT)
         self.textbox.setMinimumSize(300, 100)
         self.text_update.connect(self.append_text)
-        sys.stdout = self
+        sys.stdout   =  self
         
+        self.carto   = GIS()
+        
+        self.carto.setBackgroundColor(self.palette().window().color().name())
+        Vlayout4 = QVBoxLayout()
+        Vlayout4.addWidget(self.carto.toolBar)
+        Vlayout4.addWidget(self.carto.canvas)
+        #self.carto.setBackgroundColor()
         #self.vlayout.addWidget(self.textbox)
+        carto = QWidget()
+        carto.setLayout(Vlayout4)
         self.tabs.addTab(self.textbox,'console')
-        
+        self.tabs.addTab(carto,'cartographie')
 
         #==================================
         # default parameters
